@@ -1,9 +1,5 @@
 ## Sprint 4: Creating Todos
-We're going to create a component that handles the form that will allow a user to create todos. Before we build this feature, you should know that this sprint is going to explore some concepts in React that are new to us; namely, using state to hold onto form data until the user is ready to submit that data. 
-
-When the user does finally submit the form, where does that data go? Read on to find out more and you may want to run through this sprint two or three more times to make sure this makes sense.
-
-Lets write this feature to shed some more light on it.
+We're going to create a component that contains a form that will allow a user to create todos. Before we build this feature, you should know that this sprint is going to explore some concepts in React that are relatively new to us; namely, using state to hold onto form data until the user is ready to submit that data.
 
 Let's create a file `src/components/CreateTodoForm.js` and fill it out with the following:
 
@@ -11,7 +7,7 @@ Let's create a file `src/components/CreateTodoForm.js` and fill it out with the 
 import React, { Component } from 'react';
 
 class CreateTodoForm extends Component {
-  this.state = {
+  state = {
     todo: '',
   };
   
@@ -50,7 +46,7 @@ class CreateTodoForm extends Component {
 export default CreateTodoForm;
 ```
 
-Whoa.. pauuuuseee. Let's take a look. First let's look at what we're rendering:
+Let's review and focus on what we're rendering (don't type this next block, we should already have it):
 
 ```js
 render() {
@@ -70,13 +66,11 @@ render() {
 };
 ```
 
-We define the initial state of the form in the constructor.
+We define the initial state of the form in the `state` object at the top of the component definition.
 
-Looks like a form. When it gets submitted we run a function (we're using es6 arrow function here to pass an anonymous function with an event argument). That function is the `.onFormSubmit` function defined in this component.
+Looks like a form. When it gets submitted we run a function using the `onSubmit` event handler prop in the `form` element.
 
-> `onSubmit` is reserved JSX to define an event for form submission, almost identical to `ng-submit` in angular
-
-Similarly when the `input` is changed we run `.onInputChange`.
+Similarly when the `input` is changed we capture that event with the `onChange` event handler prop and run a function to update state with the user's new input.
 
 
 Let's take a look at the `onInputChange` function first:
@@ -104,9 +98,9 @@ onFormSubmit = (event) => {
 };
 ```
 
-First off, prevent the default action as form submission will cause a request to fire. Then instantiate a variable todo from the state. Lastly we also set the todo property of the state as an empty string. We skipped one line though, `this.props.createTodo(todo)` What does that tell us about where `createTodo` comes from?
+First off, prevent the default action (form submission will cause a request to fire), then instantiate a variable `todo` from the state. Lastly, we also set the `todo` property of the state as an empty string. We skipped one line though, `this.props.createTodo(todo)`. What does the syntaxt of that line tell us about where `createTodo` comes from?
 
-It needs to be supplied from its parent component. Let's update the `src/containers/TodosContainer.js` so that we can successfully create todos:
+If you said "props", you're right. It needs to be supplied from its parent component. Let's update the `src/containers/TodosContainer.js` so that we can successfully create todos:
 
 In `src/containers/TodosContainer.js`:  
 
@@ -142,7 +136,7 @@ render() {
 };
 ```
 
-We see that we pass the `createTodo` function of THIS container component TO the `CreateTodoForm` component. Since we are using arrow functions instead of traditional function definitions we are not bound to a `this` inside our methods.  The `this` inside the methods actually refers to the context of the component. 
+We see that we pass the `createTodo` function of THIS container component TO the `CreateTodoForm` component.  The `this` inside the methods actually refers to the context of the component - meaning that the `this` keyword refers to the component where the function is defined. 
 
 In the actual `createTodo` function. We can see that we construct everything we need about a todo in an object and store it in a variable. We then pass that object to a `.create` method on our `TodoModel` that ... hasn't been defined yet. Let's define it now. In `src/models/Todo.js`:
 

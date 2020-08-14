@@ -2,7 +2,7 @@
 
 We're going to use React Router to handle our views. However, it isn't necessary for this application. We're really just going for exposure here. There's a lot to learn about react router and we'll just be scratching the surface. If you want to dive deeper, checkout [this tutorial](https://github.com/reactjs/react-router-tutorial)
 
-We need a way to link to various urls to components in our application. Because our application will be a SPA (Single Page Application,) we still want to preserve different application-states via the url. This Todo app's application-states (not to be confused with component state) will just be the root url and a url to all todos(`/` and `/todos`)
+We need a way to link to various urls to components in our application, mimicking traditional browser behaviour of changing from one page to another. This Todo app's pages will just be the root url and a url to all todos(`/` and `/todos`)
 
 ### Creating Routes
 Routes in React are just React components as well! Since we've installed the `react-router-dom` dependency, we'll start by wrapping our `App` Component in a `BrowserRouter` component available to us from `react-router-dom`. 
@@ -60,7 +60,6 @@ $ touch src/components/Home.js
 $ mkdir src/containers
 $ touch src/containers/TodosContainer.js
 ```
-We will go over why `TodosContainer` is in a different `src/containers/` directory, vs the `src/components/` directory we've already created.
 
 Now that you've created those files, make sure to add a simple React component inside each of them.
 
@@ -100,7 +99,7 @@ class TodosContainer extends Component {
 export default TodosContainer;
 ```
 
-> Something that's weird is that we imported `React` from `'react'` but then we imported `{Route}` from `'react-router-dom'`. What's with the curly braces? In the latter case we're actually only importing a specific module of the `react-router-dom` and name spacing it within `Route` If we had omitted the curly braces, it would have grabbed all of `react-router-dom`'s functionality. Check out the [react-router-dom source code](https://github.com/ReactTraining/react-router/tree/master/packages/react-router/docs/api) and we can clearly see the Route is a module within react-router-dom
+> Something that's weird is that we imported `React` from `'react'` but then we imported `{Route}` from `'react-router-dom'`. What's with the curly braces? In the latter case we're only importing a specific module of the `react-router-dom` package. If we had omitted the curly braces, it would have grabbed all of `react-router-dom`'s functionality. Check out the [react-router-dom source code](https://github.com/ReactTraining/react-router/tree/master/packages/react-router/docs/api) and we can clearly see the Route is a module within react-router-dom
 
 
 Great, we should now be able to see our `Home` component's "I am the Home page" show up on `localhost:3000`! Going to `localhost:3000/todos` should show "I am the TodosContainer page".
@@ -163,11 +162,11 @@ const Header = () => {
 export default Header;
 ```
 
-In this file, we've grabbed some dependencies and stored them in variables and then defined a component. The `Link` component is exactly what you think it is, a link to another route. You can think of it as an `href` in plain 'ol HTML.
+In this file, we've imported some dependencies and stored them in variables and then defined a component. The `Link` component is exactly what it says it is, a component that will link to one of the Route components using a path stored in the `to` attribute/prop. 
 
 Awesome! We now have a header showing up! Click between the `Home` and `Todos` links. It should route to your `Home` and `TodosContainer` components.
 
-Before moving on, let's refactor so all our routes live neatly squared away in a separate file:
+Before moving on, let's refactor so all our routes live neatly squared away in a separate file. This refactor is overkill for a Todo app but it gives us a chance to write code that more closely resembles how larger scale React apps manage routing. Start by creating the folder and file for this config file:
 
 ```bash
 mkdir src/config/
@@ -189,6 +188,8 @@ export default (
   </Switch>
 );
 ```
+
+The syntax here is new but isn't particularly tricky. This file imports components from `react-router-dom`, invokes them, and exports that component structure for use in other files.
 
 Then, edit your `App.js` file to no longer have hard-coded routes, and to reference the routes in your `config/routes.js` file instead:
 

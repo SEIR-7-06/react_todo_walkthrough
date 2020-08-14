@@ -1,12 +1,16 @@
 # Sprint 3: Fetching Data with Axios
 
-React actually isn't as full featured as say AngularJS or BackboneJS. It relies on third party libraries to fetch data. Today, we'll be using a library called [Axios](https://github.com/mzabriskie/axios), a promise based HTTP client for the browser and node. This replaces the need for JQuery and Ajax. Let's install the module now and also create the folder & file that will contain our database logic:
+React relies on third party libraries to fetch data - it doesn't have that functionality built in like some other frameworks. Today, we'll be using a library called [Axios](https://github.com/mzabriskie/axios), a promise based HTTP client for the browser and node (a good alternatvie is the Fetch API built right into modern browsers). 
+
+Let's install axios now and also create the folder & file that will contain our database logic:
 
 ```bash
 $ npm i axios 
 $ mkdir src/models
 $ touch src/models/Todo.js
 ```
+
+By keeping API requests in a file of their own, we can access them from any component in the application
 
 Now in `src/models/Todo.js`, we are going to use our beloved super-crud API endpoint of todos to get some data (you can check out the raw json at https://super-crud.herokuapp.com/todos):
 
@@ -27,18 +31,19 @@ export default TodoModel;
 
 The Axios API is awesome & intuitive! When we use the `all` method on our `TodoModel`, it will make a get request to our API for *all* todos. We return the request so that we can chain promises to it.
 
-Note also that `all()` is a static method. What does this mean? A **static** method can be called without there being an **instance** of the class containing the **static** method. This will allow us to call `all()` in the following way (without ***instantiating*** the class with new):
+Note also that `all()` is a static method. What does this mean? A **static** method can be called without there being an **instance** of the class containing the **static** method. This will allow us to call `all()` like this:
 
 ```js
 let todos = TodoModel.all();
 ```
 
+So, why don't we need to use the `new` keyword?
 
 **Class methods** don't require an instance of the class in order to be called, but an **instance method** does. [More on Static Methods in JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes#Static_methods)
 
 We can't really test out the code in this file in isolation, so we must `import` it into our application in order to test it. The logical place to import this code is in the `TodosContainer` component.
 
-For now, let's toss this in the `TodosContainer`'s `render()` method: this isn't ultimately going to be where we want to call `TodoModel.all()`, but for testing purposes, it will suffice.
+For now, let's toss this in the `TodosContainer`'s `render()` method: this isn't ultimately going to be where we want to call `TodoModel.all()`, but it's a good first step.
 
 In `containers/TodosContainer.js`:
 
@@ -62,14 +67,14 @@ class TodosContainer extends Component {
 export default TodosContainer;
 ```
 
-Awesome, we can see the response from our database as soon as the page loads, we know it's working! Notice that the actual `json` we want is stored in the `data` attribute of the response.  This is a standard format for `axios` returns.  
+We should see the response from our database as soon as the page loads, we know it's working! Notice that what we want is stored in the `data` attribute of the response. Axios organizes the response like this by default.  
 
-We can now see that everything is working! However, its completely in the wrong spot and we don't have anything we're passing todos to... yet!
+We can now see that everything is working! However, it needs a refactor and we don't see any todos... yet!
 
 Now that we can get our data, let's code how we present that data. It'll be a bit before we connect these pieces and actually see our todos in our app, but just hold on, we'll get there!
 
 ### Rendering A Todo
-Let's start at the bottom and bubble up. It would be nice if each `todo` element had its own component to follow FIRST(Focused Independent Reusable Small Testable) principles. Let's create `src/components/Todo.js` and put the following in it:
+Let's start at the bottom and bubble up. It would be nice if each `todo` element had its own component. Let's create `src/components/Todo.js` and put the following in it:
 
 ```js
 import React, { Component } from 'react';
@@ -87,7 +92,7 @@ class Todo extends Component {
 export default Todo;
 ```
 
-When we write this component we know that if we pass it a `todo`, as a `prop`, that has both an id and a body, that it will render. AND it will render the same way every time. So what will be rendering each individual `Todo` component?
+When we write this component we know that if a `todo` object is passed to it as a `prop`, it will render the body of that `todo` and use the `id` in the `data-todos-index` attribute. So what will be rendering each individual `Todo` component?
 
 ### Rendering Todos
 We need another component. Its responsibility will be to render all of the todos. Let's create another component `src/components/Todos.js` and fill it with the following:

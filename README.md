@@ -8,21 +8,15 @@
 - Pass state from children components to their parents as arguments to functions
 
 ## Framing
-For today, we'll be creating a Todo app in React.
-
-We've learned a tremendous amount about object oriented structures for web development. And they were great. We have also dabbled a bit with feature-based separation of concerns. React's component model takes that separation further and reduces the potential of tight coupling that often attends object oriented. Think of the FIRST principles:
+For today, we'll be creating a Todo app in React but first, recall the FIRST principles for making high quality components:
 
 #### Focused
 
 Components should do one thing and do it well. It takes some time for most developers coming from an OOP background to adjust to React's component-based architecture. At first, a dev from an OOP background may pack too much information into a component. This is a fine starting point, but as you progress you will get a better sense of how to minimize component code.
 
-> Think back to the Post component from the intro's class.
-
 #### Independent
 
-Components should increase cohesion and reduce coupling. Behavior in one component should not impact the behavior of another. In other words, components should not rely on one another.
-
-> But they should compliment one another, just like our Comment component did for Post in the intro's class.
+Components should increase cohesion (work together) and reduce coupling (not rely on each other).
 
 #### Reusable
 

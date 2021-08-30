@@ -1,10 +1,10 @@
 ## Sprint 4: Creating Todos
 We're going to create a component that contains a form that will allow a user to create todos. Before we build this feature, you should know that this sprint is going to explore some concepts in React that are relatively new to us; namely, using state to hold onto form data until the user is ready to submit that data.
 
-Let's create a file `src/components/CreateTodoForm.js` and fill it out with the following:
+Let's create a file `src/components/CreateTodoForm.jsx` and fill it out with the following:
 
 ```js
-import React, { Component } from 'react';
+import { Component } from 'react';
 
 class CreateTodoForm extends Component {
   state = {
@@ -169,10 +169,6 @@ onFormSubmit = (event) => {
 We pass `createTodo` from the container as `props`. In `src/containers/TodosContainer.js`:
 
 ```js
-constructor() {
-  super(); 
-};
-
 render() {
   return (
     <div className="todosContainer">

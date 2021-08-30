@@ -7,11 +7,8 @@ To update a `todo` in our database we will need to initiate a pre-filled form th
 In `containers/TodosContainer.js`:
 
 ```js
-  constructor() {
-      super();
-      this.state = {
-          todos: [],
-      };
+  state = {
+    todos: [],
   };
 
   /* createTodo = ...  */
@@ -68,13 +65,10 @@ In the `components/Todos.js`, add `updateTodo` to `<Todo>` props:
 In `components/Todo.js` We need to add some state and add the method  `toggleBodyForm`:
 
 ```js
-  constructor(props) {
-    super(props);
-    this.state = {
+  state = {
       formStyle: {
         display: 'none',
       },
-    };
   };
 
   toggleBodyForm = () => {
@@ -121,15 +115,12 @@ Lets update our `Todo` render to have the `TodoForm` included. We'll also add an
 You will then have to both write the `TodoForm` component and then import it into `components/Todo.js`:
 
 ```js
-//TodoForm.js
-import React, { Component } from 'react';
+//TodoForm.jsx
+import { Component } from 'react';
 
 class TodoForm extends Component {
-  constructor() {
-    super();
-    this.state = {
-      todo: '',
-    };
+  state = {
+    todo: '',
   };
 
   onChange = (event) => {
@@ -169,8 +160,8 @@ export default TodoForm;
 ```
 
 ```js
-//Todo.js
-import React, { Component } from 'react';
+//Todo.jsx
+import { Component } from 'react';
 import TodoForm from './TodoForm';
 
 //...

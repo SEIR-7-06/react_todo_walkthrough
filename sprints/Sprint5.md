@@ -40,11 +40,8 @@ let todos = props.todos.map((todo) => {
 Looks like it's not defined here either but passed yet again from a parent container. Finally in the `src/containers/TodosContainer.js`:
 
 ```js
-constructor() {
-  super();
-  this.state = {
+state = {
     todos: [],
-  };
 };
 
 // After the todo delete response is sent back from the server, we find the corresponding entry for the todo in our todos state array and remove it.

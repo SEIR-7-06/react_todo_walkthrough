@@ -1,6 +1,6 @@
 # Sprint 3: Fetching Data with Axios
 
-React relies on third party libraries to fetch data - it doesn't have that functionality built in like some other frameworks. Today, we'll be using a library called [Axios](https://github.com/mzabriskie/axios), a promise based HTTP client for the browser and node (a good alternatvie is the Fetch API built right into modern browsers). 
+React relies on third party libraries to fetch data - it doesn't have that functionality built in like some other frameworks. Today, we'll be using a library called [Axios](https://github.com/mzabriskie/axios), a promise based HTTP client for the browser and node (axios is a third party library that is an alternative the Fetch API built right into modern browsers). 
 
 Let's install axios now and also create the folder & file that will contain our database logic:
 
@@ -74,10 +74,10 @@ We can now see that everything is working! However, it needs a refactor and we d
 Now that we can get our data, let's code how we present that data. It'll be a bit before we connect these pieces and actually see our todos in our app, but just hold on, we'll get there!
 
 ### Rendering A Todo
-Let's start at the bottom and bubble up. It would be nice if each `todo` element had its own component. Let's create `src/components/Todo.js` and put the following in it:
+Let's start at the bottom and bubble up. It would be nice if each `todo` element had its own component. Let's create `src/components/Todo.jsx` and put the following in it:
 
 ```js
-import React, { Component } from 'react';
+import { Component } from 'react';
 
 class Todo extends Component {
   render() {
@@ -95,7 +95,7 @@ export default Todo;
 When we write this component we know that if a `todo` object is passed to it as a `prop`, it will render the body of that `todo` and use the `id` in the `data-todos-index` attribute. So what will be rendering each individual `Todo` component?
 
 ### Rendering Todos
-We need another component. Its responsibility will be to render all of the todos. Let's create another component `src/components/Todos.js` and fill it with the following:
+We need another component. Its responsibility will be to render all of the todos. Let's create another component `src/components/Todos.jsx` and fill it with the following:
 
 ```js
 import React from 'react';
@@ -127,18 +127,15 @@ In this component, we have a property called todos. When we eventually use this 
 Let's shove the remaining code we need in and then let's talk about it. In `src/containers/TodosContainer.js`:
 
 ```js
-import React, { Component } from 'react';
+import { Component } from 'react';
 import TodoModel from '../models/Todo';
 import Todos from '../components/Todos';
 
 class TodosContainer extends Component {
-  constructor() {
-    super();
-    this.state = {
-      todos: [],
-    };
-  };
-  
+  state = {
+    todos: []
+  }
+
   componentDidMount() {
     this.fetchData();
   };
@@ -167,15 +164,12 @@ export default TodosContainer;
 If we take a look at our browser now... BAM todos! What just happened....
 
 ```js
-constructor() {
-  super();
-  this.state = {
-    todos: [],
-  };
+this.state = {
+  todos: [],
 };
 ```
 
-This is just like `__init__` in python(only a bit different). `constructor()` is basically a function that invokes when an instance of our class gets initialized. When we call `super()` we're basically saying invoke the same `constructor` function that the React library defines for their `constructor`. In addition to that initialize a state for this component in which `todos` is a property and set its value as an empty array. We can then set the state any other time in our application using `.setState()`.
+This initializes a state for this component in which `todos` is a property and it's value is set to an empty array. We can then set the state any other time in our application using `this.setState()`.
 
 ```js
 fetchData = () => {
@@ -196,7 +190,7 @@ componentDidMount() {
 ```
 
 ### Hooks
-Every component in react undergoes a component lifecycle. There are several "hooks" throughout this lifecycle. You can think of hooks like events that we can trigger functionality on. `componentDidMount` is a reserved hook that happens after a component renders. There are many hooks, this is a [great blog post](http://busypeoples.github.io/post/react-component-lifecycle/) that goes into much better detail of the lifecycle of a component.
+Every component in react undergoes a component lifecycle. There are several "lifecycle methods" throughout this lifecycle. You can think of lifecycle methods like events that we can trigger functionality on. `componentDidMount` is a reserved method that happens after a component renders. There are many lifecycle methods, this is a [great blog post](http://busypeoples.github.io/post/react-component-lifecycle/) that goes into much better detail of the lifecycle of a component.
 
 
 You might be asking yourself: "Wait, why are we getting the data after the components already been rendered?" ([Andy did too](http://stackoverflow.com/questions/39338464/reactjs-why-is-the-convention-to-fetch-data-on-componentdidmount))

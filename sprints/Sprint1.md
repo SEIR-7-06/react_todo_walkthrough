@@ -15,23 +15,26 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import { BrowserRouter as Router } from 'react-router-dom';
 import App from './App';
-import * as serviceWorker from './serviceWorker';
+import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
-  <Router>
-    <App />
-  </Router>, document.getElementById('root'));
+  <React.StrictMode>
+    <Router >
+      <App />
+    </Router>
+  </React.StrictMode>,
+  document.getElementById('root')
+);
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();
 ```
 
 Now, in `src/App.js`, let's add 2 routes for '/' and '/todos': 
 
 ```js
-import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Home from './components/Home';
 import TodosContainer from './containers/TodosContainer';
@@ -56,9 +59,9 @@ This will immediately ERROR our code out, because we don't actually have those f
 
 ```bash
 $ mkdir src/components
-$ touch src/components/Home.js
+$ touch src/components/Home.jsx
 $ mkdir src/containers
-$ touch src/containers/TodosContainer.js
+$ touch src/containers/TodosContainer.jsx
 ```
 
 Now that you've created those files, make sure to add a simple React component inside each of them.
@@ -67,8 +70,6 @@ Inside the  `components/Home.js` React component add the following code:
   
 ```js
 // components/Home.js
-import React from 'react';
-
 const Home = () => {
   return (
     <h2>
@@ -84,7 +85,7 @@ In the `containers/TodosContainer` React component add the following code:
   
 ```js
 // containers/TodosContainer.js
-import React, { Component } from 'react';
+import { Component } from 'react';
 
 class TodosContainer extends Component {
   render() {
@@ -112,9 +113,8 @@ Before we add another route, let's create a `Header` component to show up across
 In `src/App.js`:
 
 ```js
-import React from 'react';
-import Header from './components/Header';
 import { Switch, Route } from 'react-router-dom';
+import Header from './components/Header';
 import Home from './components/Home';
 import TodosContainer from './containers/TodosContainer';
 
@@ -144,7 +144,6 @@ $ touch src/components/Header.js
 In `src/components/Header.js`:
 
 ```js
-import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Header = () => {
@@ -152,8 +151,8 @@ const Header = () => {
     <header>
       <h1>ToDo</h1>
       <nav> 
-        <Link to={'/'}>Home</Link>
-        <Link to={'/todos'}>Todos</Link>
+        <Link to='/'>Home</Link>
+        <Link to='/todos'>Todos</Link>
       </nav>
     </header>
   );
@@ -176,7 +175,6 @@ touch src/config/routes.js
 In your `config/routes.js` file, copy and paste the routes from your `App` component:
 
 ```js
-import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Home from '../components/Home';
 import TodosContainer from '../containers/TodosContainer';

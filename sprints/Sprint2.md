@@ -5,7 +5,7 @@ In order to help keep components slim, a good practice is to move as much of the
 Let's revise our `src/containers/TodosContainer.js` and replace the dummy text we had before with the following:
 
 ```js
-import React, { Component } from 'react';
+import { Component } from 'react';
 
 class TodosContainer extends Component {
   render() {
